@@ -1,44 +1,67 @@
+import java.io.IOException;
 
 public class MainClass 
 {
 
 	public static void main(String[] args) 
 	{
-		Invitato i1=new Invitato ("Yuri",'M',"3398776543");
-		Invitato i2=new Invitato ("Raimondo",'M',"339865436543");
-		Invitato i3=new Invitato ("Laura",'F',"3398778763");
-		Invitato i4=new Invitato ("Beppe",'M',"3387778763");
-		Invitato i5=new Invitato ("Lilliano",'M',"3387773463");
 		
-		FestaCoda f1=new FestaCoda();
-		f1.enqueue(i1);
-		System.out.println(f1.toString());
-		f1.enqueue(i2);
-		System.out.println(f1.toString());
-		f1.enqueue(i3);
-		System.out.println(f1.toString());
-		f1.enqueue(i4);
-		System.out.println(f1.toString());
-		f1.enqueue(i5);
-		System.out.println(f1.toString());
 		
-		System.out.println(f1.toString());
-		
+		Festa f2=new Festa();
 		try 
 		{
-			while (true)
-			{
-				System.out.println(f1.dequeue().toString());
-				System.out.println(f1.toString());
-			}
-			
+			f2=f2.caricaFesta("festa.bin");
+		} 
+		catch (ClassNotFoundException e) 
+		{
+			System.out.println("Impossibile caricare oggetti di tipo festa");
+		} 
+		catch (IOException e) 
+		{
+			System.out.println("Impossibile leggere da file");
+		}
+		
+		System.out.println(f2.toString());
+	/*	System.out.println(f1.toString());
+		try 
+		{
+			f1.esportaCSV("festa.txt");
+			System.out.println("esportazione eseguita correttamente");
+		} 
+		catch (IOException e) 
+		{
+			System.out.println("Impossibile scrivere sul file");
+		} 
+		catch (FestaException e) 
+		{
+			System.out.println(e.toString());
+		} 
+		catch (FileException e) 
+		{
+			System.out.println(e.toString());
+		}
+		
+		Festa f2=new Festa();
+		try 
+		{
+			f2=f2.importaCSV("festa.txt");
+		} 
+		catch (IOException e) 
+		{
+			System.out.println("Impossibile leggere dal file");
+		} 
+		catch (FileException e) 
+		{
+			System.out.println(e.toString());
 		} 
 		catch (FestaException e) 
 		{
 			System.out.println(e.toString());
 		}
 		
-		
+		System.out.println(f2.toString());
+	*/
+	
 	}
 	
 	

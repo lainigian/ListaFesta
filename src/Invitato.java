@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Invitato 
+public class Invitato implements Serializable
 {
 
 	private String nome;

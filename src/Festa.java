@@ -1,5 +1,12 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-public class Festa 
+public class Festa implements Serializable
 {
 
 	private Nodo head;
@@ -174,4 +181,70 @@ public class Festa
 		return p.getInfo();		
 	}
 	
+	public void esportaCSV (String nomeFile) throws IOException, FestaException, FileException
+	{
+		TextFile file= new TextFile (nomeFile,'W');
+		String personaCSV;
+		Invitato persona;
+		
+		for (int i = 1; i <= getElementi(); i++) 
+		{
+			persona=getInvitato(i);
+			personaCSV=persona.getNome()+";"+persona.getSesso()+";"+persona.getTelefono()+";";
+			file.toFile(personaCSV);
+		}
+		file.closeFile();
+		
+	}
+
+	public Festa importaCSV (String nomeFile) throws IOException, FileException, FestaException
+	{
+		Festa festa=new Festa();
+		TextFile file=new TextFile(nomeFile,'R');
+		String rigaLetta;
+		String[] elementiPersona;
+		Invitato persona;
+		
+			try 
+			{
+				while(true)
+				{
+					rigaLetta=file.fromFile();
+					elementiPersona=rigaLetta.split(";");
+					persona=new Invitato(elementiPersona[0],elementiPersona[1].charAt(0),elementiPersona[2]);
+					festa.inserisciInCoda(persona);
+				}
+				
+			} 
+			catch (FileException e) 
+			{
+				if (e.toString().compareTo("End of file")==0)
+					file.closeFile();
+				else
+					throw new FileException(e.toString());
+			}
+		
+			return festa;		
+			
+	}
+	public void salvaFesta(String nomeFile) throws IOException
+	{
+		FileOutputStream file =new FileOutputStream(nomeFile);
+		ObjectOutputStream writer=new ObjectOutputStream(file);
+		writer.writeObject(this);
+		writer.flush();
+		file.close();
+	}
+	
+	public Festa caricaFesta (String nomeFile) throws IOException, ClassNotFoundException
+	{
+		FileInputStream file=new FileInputStream(nomeFile);
+		ObjectInputStream reader= new ObjectInputStream(file);
+		
+		Festa festa;
+		
+		festa=(Festa)(reader.readObject());
+		file.close();
+		return festa;
+	}
 }
